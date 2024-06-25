@@ -2,10 +2,13 @@
 //dom objects
 const humanChoice = document.querySelectorAll("button");
 const para = document.createElement("p");
-
+const result = document.querySelector(".result");
+const humanScoreBox = document.querySelector(".human");
+const computerScoreBox = document.querySelector(".computer");
 //global variables
 let humanScore = 0;
 let computerScore = 0;
+let round = 0;
 
 //Generating random choice from Computer
 const getComputerChoice = function () {
@@ -20,11 +23,11 @@ const getComputerChoice = function () {
   }
 };
 
-const getHumanChoice = function () {
-  let choice = prompt("Rock Paper Scissors").toLowerCase();
+// const getHumanChoice = function () {
+//   let choice = prompt("Rock Paper Scissors").toLowerCase();
 
-  return choice;
-};
+//   return choice;
+// };
 
 //Rules
 
@@ -34,30 +37,44 @@ const rules = {
   scissors: { beats: ["paper"] },
 };
 
+//update Score
+function updateScore() {
+  humanScoreBox.textContent = `Human: ${humanScore}`;
+  computerScoreBox.textContent = `Computer: ${computerScore}`;
+}
 //Game Rounds
 function playRound() {
-  if (rules[getComputerChoice()].beats.includes(this.classList.value)) {
-    console.log(
-      `You lose! ${getComputerChoice()} beats ${this.classList.value} `
-    );
-    computerScore++;
-  } else if (rules[this.classList.value].beats.includes(getComputerChoice())) {
-    console.log(
-      `You win! ${this.classList.value} beats ${getComputerChoice()}`
-    );
-    humanScore++;
+  const humanChoice = this.classList.value;
+  if (humanScore < 5 && computerScore < 5) {
+    round++;
+    console.log(round);
+    if (rules[getComputerChoice()].beats.includes(humanChoice)) {
+      para.textContent = `You lose! ${getComputerChoice()} beats ${
+        this.classList.value
+      } `;
+      result.appendChild(para);
+
+      computerScore++;
+      updateScore();
+    } else if (rules[humanChoice].beats.includes(getComputerChoice())) {
+      para.textContent = `You win! ${
+        this.classList.value
+      } beats ${getComputerChoice()}`;
+      result.appendChild(para);
+
+      humanScore++;
+      updateScore();
+    } else {
+      para.textContent = "It's a tie";
+      result.appendChild(para);
+    }
   } else {
-    console.log("It's a tie");
+    winner();
   }
 }
 
 //Game Logic
 function playGame() {
-  console.log(`Round ${i + 1}`);
-  const humanSelection = getHumanChoice();
-  const computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
   winner();
 }
 
