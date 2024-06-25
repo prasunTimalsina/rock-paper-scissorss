@@ -1,4 +1,7 @@
 "use strict";
+//dom objects
+const humanChoice = document.querySelectorAll("button");
+const para = document.createElement("p");
 
 //global variables
 let humanScore = 0;
@@ -32,12 +35,16 @@ const rules = {
 };
 
 //Game Rounds
-function playRound(humanChoice, computerChoice) {
-  if (rules[computerChoice].beats.includes(humanChoice)) {
-    console.log(`You lose! ${computerChoice} beats ${humanChoice} `);
+function playRound() {
+  if (rules[getComputerChoice()].beats.includes(this.classList.value)) {
+    console.log(
+      `You lose! ${getComputerChoice()} beats ${this.classList.value} `
+    );
     computerScore++;
-  } else if (rules[humanChoice].beats.includes(computerChoice)) {
-    console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+  } else if (rules[this.classList.value].beats.includes(getComputerChoice())) {
+    console.log(
+      `You win! ${this.classList.value} beats ${getComputerChoice()}`
+    );
     humanScore++;
   } else {
     console.log("It's a tie");
@@ -46,12 +53,11 @@ function playRound(humanChoice, computerChoice) {
 
 //Game Logic
 function playGame() {
-  for (let i = 0; i < 5; i++) {
-    console.log(`Round ${i + 1}`);
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-  }
+  console.log(`Round ${i + 1}`);
+  const humanSelection = getHumanChoice();
+  const computerSelection = getComputerChoice();
+  playRound(humanSelection, computerSelection);
+
   winner();
 }
 
@@ -67,4 +73,9 @@ function winner() {
   }
 }
 //Play Game
-playGame();
+// playGame();
+
+//Experiment
+humanChoice.forEach((choice) => {
+  choice.addEventListener("click", playRound);
+});
